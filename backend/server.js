@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express'); // in Terminal, input this it to work: npm install express mongoose gridfs-stream multer multer-gridfs-storage cors"
 const mongoose = require('mongoose');
 const Grid = require('gridfs-stream');
 const multer = require('multer');

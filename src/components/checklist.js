@@ -16,8 +16,6 @@ const SecurePage = () => {
             console.error('Error fetching data:', error);
         }
     };
-
-
    
     //Benefits to required documents logic, need to figure out how to get this to work.
 
@@ -56,44 +54,40 @@ const SecurePage = () => {
     return (
         <div className="secure-page">
             <div className="content">
-                <img src="https://i.imgur.com/YIChrEK.png" alt="Company Logo" />
-                <h1>Welcome to the Secure Page</h1>
-                <p>Click the "Scan" button to display data.</p>
-
+                <img src="https://i.imgur.com/SROEj2Q.jpeg" alt="Company Logo" className="company-logo" />
                 {/* Search component */}
                 <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
                 {filteredData.length > 0 ? (
-                    <table>
-                        <thead>
-                            <tr>
-                                <th className="red-header">Name</th>
-                                <th className="red-header">Student ID</th>
-                                <th className="red-header">Benefit</th>
-                                <th className="red-header">Required Documents</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredData.map((item, index) => {
-                                const fullName = item["Last Name, First Name (Legal Name)"] || 'Unknown';
-                                const [lastName, firstName] = fullName.split(',').map(name => name.trim());
-                                const displayName = `${firstName} ${lastName}`;
-                                
+    <table className="data-table"> {/* Add className here */}
+        <thead>
+            <tr>
+                <th className="red-header">Name</th>
+                <th className="red-header">Student ID</th>
+                <th className="red-header">Benefit</th>
+                <th className="red-header">Required Documents</th>
+            </tr>
+        </thead>
+        <tbody>
+            {filteredData.map((item, index) => {
+                const fullName = item["Last Name, First Name (Legal Name)"] || 'Unknown';
+                const [lastName, firstName] = fullName.split(',').map(name => name.trim());
+                const displayName = `${firstName} ${lastName}`;
 
-                                return (
-                                    <tr key={index}>
-                                        <td>{displayName}</td>
-                                        <td>{item["Student ID # (This is NOT your Social Security Number or SSO ID)"] || 'N/A'}</td>
-                                        <td>{item["Benefit you plan to utilize this term (check all that apply):"]}</td>
-                                        <td>Required Docs</td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                ) : (
-                    <p>No veterans matching search</p>
-                )}
+                return (
+                    <tr key={index}>
+                        <td>{displayName}</td>
+                        <td>{item["Student ID # (This is NOT your Social Security Number or SSO ID)"] || 'N/A'}</td>
+                        <td>{item["Benefit you plan to utilize this term (check all that apply):"]}</td>
+                        <td>Required Docs</td>
+                    </tr>
+                );
+            })}
+        </tbody>
+    </table>
+) : (
+    <p>No veterans matching search</p>
+)}
             </div>
         </div>
     );

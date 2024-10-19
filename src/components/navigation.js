@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './navigation.css';
 
 const Navigation = () => {
     const [modal, setModal] = useState('');

@@ -91,3 +91,63 @@ p {
     color: white; /* Sets the text color to white for better contrast */
     padding: 10px; /* Adds some padding for better spacing */
 }
+
+.benefit-box {
+    background-color: #808080;
+    color: white;
+    padding: 5px 10px;
+    margin-left: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    max-width: 200px; /* Limiting width to make it more narrow */
+    word-wrap: break-word; /* Prevent text overflow */
+    white-space: normal; /* Allow text to wrap inside the box */
+    display: inline-flex;
+    align-items: center;
+    height: 30px; /* Set a fixed height to align with checkboxes */
+}
+
+.benefit-box.active {
+    background-color: black;
+    color: lightgrey;
+}
+
+.date-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    gap: 5px; /* Adjust space between checkbox and text */
+}
+
+.date-box {
+    background-color: #ADD8E6;
+    padding: 5px 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    min-width: 50px;
+}
+
+.date-checked {
+    font-weight: bold;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    gap: 5px; /* Reducing gap to bring checkbox closer */
+}
+
+.checkbox-container input[type="checkbox"] {
+    margin: 0; /* Removes extra spacing around the checkbox */
+    width: 20px; /* Ensure width of checkbox is uniform */
+    height: 20px; /* Ensure height of checkbox is uniform */
+}
+
+.checkbox-container label {
+    margin: 0;
+    padding-left: 5px; /* Adjust padding to bring the label closer to checkbox */
+    white-space: nowrap; /* Prevent text from wrapping */
+}

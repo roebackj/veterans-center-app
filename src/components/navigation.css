@@ -44,6 +44,9 @@ html, body {
 /* Special styling for the Scan button */
 .box-scan {
     background-color: #007bff; /* Blue background for Scan button */
+    padding: 12px 20px; /* Ensure same padding as in .box */
+    height: 55px; /* Ensure same height */
+    font-size: 22px; /* Ensure font size is consistent */
 }
 
 /* Hover effects for buttons */
@@ -77,8 +80,15 @@ html, body {
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     text-align: center;
-    width: 80%;
-    max-width: 500px;
+    width: 80%; /* Increased from 80% */
+    max-width: 1200px; /* Increased max-width for larger screens */
+    height: auto; /* Allow the modal to resize vertically */
+}
+
+/* Increase iframe height and modal width for larger PDFs */
+iframe {
+    width: 100%;  /* Keep the iframe full-width */
+    height: 800px; /* Increased height */
 }
 
 /* Close button for modal */

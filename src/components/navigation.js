@@ -3,11 +3,32 @@ import './navigation.css';
 
 const Navigation = () => {
     const [modal, setModal] = useState('');
+    const [pdfs, setPdfs] = useState([]);
 
-    const openModal = (modalName) => setModal(modalName);
-    const closeModal = () => setModal('');
+    const openModal = (modalName) => {
+        setModal(modalName);
+        if (modalName === 'schedule') {
+            fetchPdfs();
+        }
+    };
 
-    // Define instructions for each modal
+    const closeModal = () => {
+        setModal('');
+        setPdfs([]);
+    };
+
+    const fetchPdfs = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/api/pdfs');
+            const data = await response.json();
+            if (data.length > 0) {
+                setPdfs(data);
+            }
+        } catch (error) {
+            console.error('Error fetching PDFs:', error);
+        }
+    };
+
     const instructions = {
         scan: "Instructions for Scan",
         coe: "Instructions for COE",
@@ -21,7 +42,7 @@ const Navigation = () => {
     return (
         <div className="navbar">
             <div className="container">
-                <div onClick={() => {/* Scan button does nothing for now */}} className="box box-scan">Scan</div>
+                <div onClick={() => { }} className="box box-scan">Scan</div>
                 <div onClick={() => openModal('coe')} className="box">COE</div>
                 <div onClick={() => openModal('enrollment')} className="box">Enrollment MG</div>
                 <div onClick={() => openModal('schedule')} className="box">Schedule</div>
@@ -29,14 +50,28 @@ const Navigation = () => {
                 <div onClick={() => openModal('tar')} className="box">TAR</div>
                 <div onClick={() => openModal('awardLetter')} className="box">Award Letter</div>
             </div>
-
-            {/* Modals for each button */}
             {modal && (
                 <div className="modal" onClick={closeModal}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <span className="close" onClick={closeModal}>&times;</span>
-                        <h2>{modal} Instructions</h2>
-                        <p>{instructions[modal]}</p>
+                        <h2>{instructions[modal]}</h2>
+                        {modal === 'schedule' && (
+                            <div>
+                                {pdfs.length > 0 ? (
+                                    pdfs.map((pdf, index) => (
+                                        <iframe
+                                            key={index}
+                                            src={`http://localhost:3000/${pdf.filePath}`}
+                                            width="100%"
+                                            height="600px"
+                                            title={`PDF ${index + 1}`}
+                                        ></iframe>
+                                    ))
+                                ) : (
+                                    <p>No PDFs available.</p>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

@@ -175,7 +175,7 @@ const SecurePage = () => {
                                                     id={`date-${studentID}`}
                                                     onChange={() => updateDate(studentID)}
                                                 />
-                                                <label htmlFor={`date-${studentID}`}>Date Added</label>
+                                                <label htmlFor={`date-${studentID}`}>Date Checked</label>
                                                 <div className="date-box" id={`date-box-${studentID}`}>
                                                     <span className="date-checked" id={`date-checked-${studentID}`}></span>
                                                 </div>

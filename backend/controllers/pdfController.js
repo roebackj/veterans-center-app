@@ -1,7 +1,10 @@
 const multer = require('multer');
 const PdfModel = require('../models/PdfModel');
 const path = require('path');
+const fs = require('fs');
+const crypto = require('crypto');
 
+// Multer storage configuration
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads/');
@@ -20,12 +23,18 @@ const uploadPdf = async (req, res) => {
             return res.status(400).json({ message: 'No file uploaded' });
         }
 
-        
+        // Generate the file path
         const filePath = req.file.path.replace(/\\/g, '/');
 
+        // Calculate file hash using SHA-256
+        const fileBuffer = fs.readFileSync(req.file.path);
+        const fileHash = crypto.createHash('sha256').update(fileBuffer).digest('hex');
+
+        // Create and save the new PDF document
         const pdfDocument = new PdfModel({
             title: req.body.title,
-            filePath: filePath, 
+            filePath: filePath,
+            fileHash: fileHash, // Save the file hash for reference
         });
 
         await pdfDocument.save();

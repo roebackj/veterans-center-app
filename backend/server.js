@@ -8,6 +8,8 @@ const fileRoutes = require('./routes/fileRoutes');
 const dataRoutes = require('./routes/dataRoutes');
 const authRoutes = require('./routes/authRoutes');
 const pdfRoutes = require('./routes/pdfRoutes');
+const chokidar = require('chokidar');
+const { processPdfFile } = require('./utils/processPdfFile');
 
 const app = express();
 const port = 3000;
@@ -32,6 +34,7 @@ connectDB();
 app.use('/api/files', fileRoutes);
 app.use('/api/data', dataRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/pdfs', pdfRoutes);
 
 // Temporary User Registration Route (For Testing Only)
 app.post('/api/auth/register', async (req, res) => {
@@ -56,7 +59,25 @@ app.post('/api/auth/register', async (req, res) => {
     }
 });
 
-app.use('/api/pdfs', pdfRoutes);
+// Watch for new PDFs manually added to the "uploads" directory
+const watcher = chokidar.watch(path.join(__dirname, 'uploads'), {
+    ignored: /(^|[\/\\])\../, // Ignore dotfiles
+    persistent: true
+});
+
+watcher.on('add', async (filePath) => {
+    console.log(`File added: ${filePath}`);
+    
+    // Check if it's a PDF
+    if (path.extname(filePath) !== '.pdf') return;
+
+    try {
+        // Process the new PDF file (ensure consistent handling)
+        await processPdfFile(filePath);
+    } catch (error) {
+        console.error(`Error processing file ${filePath}:`, error);
+    }
+});
 
 // Start server
 app.listen(port, () => {
